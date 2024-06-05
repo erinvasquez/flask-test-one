@@ -9,19 +9,15 @@
     <h1>WebSocket Client</h1>
     <p>Number of connected clients: <span id="clientCount">0</span></p>
 
-    <!-- Include the Socket.IO library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
         // Connect to the WebSocket server
-        var socket = io('http://34.94.196.79:5000'); // Replace server's IP address
+        const socket = io('ws://34.94.196.79:5000');
 
-        // Define event handler for the 'client_count' event
-        socket.on('client_count', function(count) {
-            // Update the client count displayed on the webpage
-            document.getElementById('clientCount').innerText = count;
+        // Listen for 'client_count' event from server
+        socket.on('client_count', (count) => {
+            document.getElementById('clientCount').textContent = count;
         });
-
-        // Add more WebSocket event handlers here
     </script>
 </body>
 </html>
