@@ -3,19 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Client</title>
+    <title>My Website</title>
+    <!-- Your CSS and other head content here -->
 </head>
 <body>
-    <div id="clientCount">Number of connected clients: 0</div>
+    <!-- Display connected user count -->
+    <div id="connected-users">Connected Users: 0</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <!-- Error handling -->
     <script>
-    var socket = io.connect('34.94.196.79:5000');
+        // Check if the URL contains a specific query parameter indicating an error
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorParam = urlParams.get('error');
 
-    socket.on('client_count', function(count) {
-        document.getElementById('clientCount').innerText = 'Number of connected clients: ' + count;
-    });
-</script>
+        // Function to display the error message
+        function displayError(code, message) {
+            const errorContainer = document.createElement('div');
+            errorContainer.classList.add('error-container');
 
+            const errorCode = document.createElement('div');
+            errorCode.classList.add('error-code');
+            errorCode.textContent = `Error ${code}`;
+
+            const errorMessage = document.createElement('div');
+            errorMessage.classList.add('error-message');
+            errorMessage.textContent = message;
+
+            errorContainer.appendChild(errorCode);
+            errorContainer.appendChild(errorMessage);
+
+            document.body.appendChild(errorContainer);
+        }
+
+        // Check if there is an error parameter in the URL
+        if (errorParam) {
+            // Display error message based on the error code
+            switch (errorParam) {
+                case '400':
+                    displayError(400, 'Bad Request');
+                    break;
+                case '404':
+                    displayError(404, 'Page Not Found');
+                    break;
+                // Add more cases for other error codes as needed
+                default:
+                    displayError('Unknown', 'Unknown Error');
+            }
+        } else {
+            // Function to update connected user count
+            function updateConnectedUsers(count) {
+                const connectedUsers = document.getElementById('connected-users');
+                connectedUsers.textContent = `Connected Users: ${count}`;
+            }
+
+            // Example WebSocket connection to update connected user count
+            const socket = new WebSocket('ws://34.94.196.79:5000/socket');
+            socket.onopen = function(event) {
+                // Connection is opened
+                console.log('WebSocket connection opened');
+            };
+
+            socket.onmessage = function(event) {
+                // Message received from server
+                const message = JSON.parse(event.data);
+                if (message.type === 'user_count') {
+                    updateConnectedUsers(message.data);
+                }
+            };
+
+            socket.onclose = function(event) {
+                // Connection is closed
+                console.log('WebSocket connection closed');
+            };
+        }
+    </script>
 </body>
 </html>
