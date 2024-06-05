@@ -10,11 +10,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://34.94.196.79:5000');
+    var socket = io.connect('34.94.196.79:5000');
 
-        socket.on('client_count', function(count) {
-            document.getElementById('clientCount').innerText = 'Number of connected clients: ' + count;
-        });
-    </script>
+    socket.on('client_count', function(count) {
+        document.getElementById('clientCount').innerText = 'Number of connected clients: ' + count;
+    });
+</script>
+
 </body>
 </html>
