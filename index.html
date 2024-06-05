@@ -6,17 +6,14 @@
     <title>WebSocket Client</title>
 </head>
 <body>
-    <h1>WebSocket Client</h1>
-    <p>Number of connected clients: <span id="clientCount">0</span></p>
+    <div id="clientCount">Number of connected clients: 0</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
     <script>
-        // Connect to the WebSocket server
-        const socket = io('ws://34.94.196.79:5000');
+        var socket = io.connect('http://34.94.196.79:5000');
 
-        // Listen for 'client_count' event from server
-        socket.on('client_count', (count) => {
-            document.getElementById('clientCount').textContent = count;
+        socket.on('client_count', function(count) {
+            document.getElementById('clientCount').innerText = 'Number of connected clients: ' + count;
         });
     </script>
 </body>
