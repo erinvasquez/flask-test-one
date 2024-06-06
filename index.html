@@ -4,7 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Website</title>
-    <!-- Your CSS and other head content here -->
+    <!-- Add your CSS here -->
+    <style>
+        .error-container {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+        }
+        .error-code {
+            font-weight: bold;
+        }
+        .error-message {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <!-- Display connected user count -->
@@ -57,7 +73,7 @@
             }
 
             // Example WebSocket connection to update connected user count
-            const socket = new WebSocket('ws://34.94.196.79:5000/socket');
+            const socket = new WebSocket('ws://34.94.196.79:5000/socket'); // Replace YOUR_EXTERNAL_IP with your actual external IP address
             socket.onopen = function(event) {
                 // Connection is opened
                 console.log('WebSocket connection opened');
